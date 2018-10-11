@@ -15,7 +15,8 @@
 
 - name: Add ThreatStack apt repo
   apt_repository:
-    repo: "{{ threatstack_repo_url }}"
+    repo: 'deb {{ threatstack_repo_url }} {{ ansible_distribution_release }} main'
+    filename: '{{ threatstack_repo_file }}'
     state: present
     update_cache: yes
 
