@@ -1,0 +1,16 @@
+---
+# package installation setup
+threatstack_gpg_key_yrl: 'https://app.threatstack.com/APT-GPG-KEY-THREATSTACK'
+threatstack_gpg_key_id: 'TODO'
+threatstack_repo_url: 'https://pkg.threatstack.com/Ubuntu'
+threatstack_repo_id: 'TODO'
+threatstack_repo_file: '/etc/apt/sources.list.d/threatstack.list'
+threatstack_package: 'threatstack-agent'
+threatstack_service: 'cloudsight'
+# service setup settings
+threatstack_agent_type: 'i'
+threatstack_rule_sets:
+  - 'Base Rule Set'
+  - 'Docker Rule Set'
+# I'm not sure but i assume this identifies our ThreatStack account
+threatstack_deploy_key: '{{lookup("passwordstore", "cloud/ThreatStack/deploy-key")}}'

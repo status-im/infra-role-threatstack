@@ -1,0 +1,39 @@
+---
+- name: Ensure dependencies are installed
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+
+- name: Add ThreatStack apt key
+  apt_key:
+    url: '{{ threatstack_gpg_key_yrl }}'
+    id: '{{ threatstack_gpg_key_id }}'
+    state: present
+
+- name: Add ThreatStack apt repo
+  apt_repository:
+    repo: "{{ threatstack_repo_url }}"
+    state: present
+    update_cache: yes
+
+- name: Install ThreatStack client
+  apt:
+    name: '{{ threatstack_package }}'
+    state: present
+
+- name: 'Verify {{ threatstack_service }} service is started'
+  systemd:
+    state: started
+    name: httpd
+
+- name: Initial {{ threatstack_service }} service setup' 
+  command: >
+    cloudsight setup \
+      --agent_type="{{ threatstack_agent_type }}" \
+      --deploy-key="{{ threatstack_deploy_key }}" \
+      {% for rule_set in threatstack_rule_sets %}
+      --ruleset="{{ rule_set }}" 
+      {% endfor %}
