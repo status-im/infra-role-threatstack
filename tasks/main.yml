@@ -27,7 +27,7 @@
 
 - name: 'Verify {{ threatstack_service }} service is started'
   systemd:
-    name: httpd
+    name: '{{ threatstack_service }}'
     state: started
     enabled: true
     masked: false
