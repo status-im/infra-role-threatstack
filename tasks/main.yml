@@ -32,7 +32,7 @@
     enabled: true
     masked: false
 
-- name: Initial {{ threatstack_service }} service setup' 
+- name: 'Initial {{ threatstack_service }} service setup' 
   command: >
     cloudsight setup \
       --agent_type="{{ threatstack_agent_type }}" \
