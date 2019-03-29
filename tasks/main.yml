@@ -22,7 +22,22 @@
 - name: Install ThreatStack client
   apt:
     name: '{{ threatstack_package }}'
-    state: present
+    state: latest
+  register: installation
+
+- name: 'Reload systemd services'
+  systemd:
+    daemon_reload: true
+  when: installation.changed
+
+- name: 'Initial {{ threatstack_service }} service setup' 
+  command: >
+    tsagent setup \
+      --deploy-key="{{ threatstack_deploy_key }}" \
+      {% for rule_set in threatstack_rule_sets %}
+      --ruleset="{{ rule_set }}" 
+      {% endfor %}
+  when: installation.changed
 
 - name: 'Verify {{ threatstack_service }} service is started'
   systemd:
@@ -30,12 +45,3 @@
     state: started
     enabled: true
     masked: false
-
-- name: 'Initial {{ threatstack_service }} service setup' 
-  command: >
-    cloudsight setup \
-      --agent_type="{{ threatstack_agent_type }}" \
-      --deploy-key="{{ threatstack_deploy_key }}" \
-      {% for rule_set in threatstack_rule_sets %}
-      --ruleset="{{ rule_set }}" 
-      {% endfor %}
