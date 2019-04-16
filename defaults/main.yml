@@ -6,6 +6,11 @@ threatstack_repo_url: 'https://pkg.threatstack.com/v2/Ubuntu'
 threatstack_repo_file: '/etc/apt/sources.list.d/threatstack'
 threatstack_package: 'threatstack-agent'
 threatstack_service: 'threatstack'
+threatstack_log_level: 'info'
+
+threatstack_config:
+  - { k: 'log.level',         v: '{{ threatstack_log_level }}' }
+  - { k: 'enable_containers', v: 1 }
 
 # service setup settings
 threatstack_rule_sets:

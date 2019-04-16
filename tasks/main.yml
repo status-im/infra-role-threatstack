@@ -39,6 +39,11 @@
       {% endfor %}
   when: installation.changed
 
+- name: 'Configure: {{ item.k }}={{ item.v }}'
+  command: >
+    tsagent config -set {{ item.k }} {{ item.v }}
+  with_items: '{{ threatstack_config }}'
+
 - name: 'Verify {{ threatstack_service }} service is started'
   systemd:
     name: '{{ threatstack_service }}'
