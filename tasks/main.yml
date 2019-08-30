@@ -30,6 +30,11 @@
     daemon_reload: true
   when: installation.changed
 
+- name: 'Verify {{ threatstack_service }} service is stopped'
+  systemd:
+    name: '{{ threatstack_service }}'
+    state: stopped
+
 - name: 'Initial {{ threatstack_service }} service setup' 
   command: >
     tsagent setup \
