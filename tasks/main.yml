@@ -1,31 +1,31 @@
 ---
-- name: Ensure dependencies are installed
+- name: ThreatStack | Ensure dependencies are installed
   apt:
     name:
       - apt-transport-https
       - ca-certificates
     state: present
 
-- name: Add ThreatStack apt key
+- name: ThreatStack | Add repo apt key
   apt_key:
     url: '{{ threatstack_gpg_key_yrl }}'
     id: '{{ threatstack_gpg_key_id }}'
     state: present
 
-- name: Add ThreatStack apt repo
+- name: ThreatStack | Add apt repo
   apt_repository:
     repo: 'deb {{ threatstack_repo_url }} {{ ansible_distribution_release }} main'
     filename: '{{ threatstack_repo_file }}'
     state: present
     update_cache: yes
 
-- name: Install ThreatStack client
+- name: ThreatStack | Install agent
   apt:
     name: '{{ threatstack_package }}'
     state: latest
   register: installation
 
-- name: 'Reload systemd services'
+- name: 'ThreatStack | Reload systemd services'
   systemd:
     daemon_reload: true
   when: installation.changed
@@ -44,14 +44,25 @@
       {% endfor %}
   when: installation.changed
 
-- name: 'Configure: {{ item.k }}={{ item.v }}'
+- name: 'ThreatStack | Configure: {{ item.k }}={{ item.v }}'
   command: >
     tsagent config -set {{ item.k }} {{ item.v }}
   with_items: '{{ threatstack_config }}'
 
-- name: 'Verify {{ threatstack_service }} service is started'
+- name: 'ThreatStack | Verify {{ threatstack_service }} service is started'
   systemd:
     name: '{{ threatstack_service }}'
     state: started
     enabled: true
     masked: false
+
+- name: ThreatStack | Create consul service definition
+  copy:
+    src: consul_service.json
+    dest: /etc/consul/service_threatstack.json
+  when: threatstack_consul_service_enabled
+  register: consul_service_config
+
+- name: ThreatStack | Reload consul
+  command: consul reload
+  when: consul_service_config.changed

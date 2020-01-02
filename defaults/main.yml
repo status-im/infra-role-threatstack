@@ -18,3 +18,6 @@ threatstack_rule_sets:
   - 'Docker Rule Set'
 # I'm not sure but i assume this identifies our ThreatStack account
 threatstack_deploy_key: '{{lookup("passwordstore", "cloud/ThreatStack/deploy-key")}}'
+
+# to allow disabling of Consul service definition
+threatstack_consul_service_enabled: true

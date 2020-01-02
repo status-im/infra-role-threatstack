@@ -1,0 +1,17 @@
+{
+  "service": {
+    "name": "threatstack",
+    "tags": [
+      "security",
+      "threatstack"
+    ],
+    "checks": [
+      {
+        "id": "threatstack-status",
+        "name": "Status of ThreatStack services",
+        "args": ["/usr/bin/pgrep", "-a", "tsagent"],
+        "interval": "60s"
+      }
+    ]
+  }
+}
