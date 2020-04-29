@@ -17,12 +17,13 @@
     repo: 'deb {{ threatstack_repo_url }} {{ ansible_distribution_release }} main'
     filename: '{{ threatstack_repo_file }}'
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: ThreatStack | Install agent
   apt:
     name: '{{ threatstack_package }}'
     state: latest
+    update_cache: true
   register: installation
 
 - name: 'ThreatStack | Reload systemd services'
@@ -30,12 +31,12 @@
     daemon_reload: true
   when: installation.changed
 
-- name: 'Verify {{ threatstack_service }} service is stopped'
+- name: 'ThreatStack | Verify {{ threatstack_service }} service is stopped'
   systemd:
     name: '{{ threatstack_service }}'
     state: stopped
 
-- name: 'Initial {{ threatstack_service }} service setup' 
+- name: 'ThreatStack | Initial {{ threatstack_service }} service setup' 
   command: >
     tsagent setup \
       --deploy-key="{{ threatstack_deploy_key }}" \
