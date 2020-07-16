@@ -12,14 +12,9 @@
     id: '{{ threatstack_gpg_key_id }}'
     state: present
 
-- name: ThreatStack | Pick distro release
-  set_fact:
-    threatstack_distro_release: 'bionic'
-  when: ansible_distribution_release == 'focal'
-
 - name: ThreatStack | Add apt repo
   apt_repository:
-    repo: 'deb {{ threatstack_repo_url }} {{ threatstack_distro_release }} main'
+    repo: 'deb {{ threatstack_repo_url }} {{ ansible_distribution_release }} main'
     filename: '{{ threatstack_repo_file }}'
     state: present
     update_cache: true
