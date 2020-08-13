@@ -9,7 +9,7 @@
       {
         "id": "threatstack-status",
         "name": "Status of ThreatStack services",
-        "args": ["/usr/bin/pgrep", "-a", "tsagent"],
+        "args": ["/bin/systemctl", "is-active", "threatstack"],
         "interval": "60s"
       }
     ]
