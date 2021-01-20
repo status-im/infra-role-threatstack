@@ -18,6 +18,7 @@
     filename: '{{ threatstack_repo_file }}'
     state: present
     update_cache: true
+    mode: 0644
 
 - name: ThreatStack | Install agent
   apt:
