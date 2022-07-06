@@ -1,7 +1,7 @@
 ---
 # package installation setup
-threatstack_gpg_key_yrl: 'https://app.threatstack.com/APT-GPG-KEY-THREATSTACK'
-threatstack_gpg_key_id: 'ACCC2B02EA3A2409557B0AB991BB3B3C6EE04BD4'
+threatstack_gpg_key_url: 'https://app.threatstack.com/APT-GPG-KEY-THREATSTACK'
+threatstack_gpg_key_sha256: '0428a856aed4141b98b294e73da01be605e1a386b2746f0f85a43cad3ca12e1d'
 threatstack_repo_url: 'https://pkg.threatstack.com/v2/Ubuntu'
 threatstack_repo_file: '/etc/apt/sources.list.d/threatstack'
 threatstack_package: 'threatstack-agent'
